@@ -78,12 +78,12 @@
     display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 16px 0 18px;
   }
   .controls .lab { font-weight: 900; font-size: 14px; margin-right: 2px; }
-  .controls select, .filters select, .filters input {
+  .controls select {
     height: 40px; padding: 0 16px; border-radius: 999px; border: var(--bd);
     background: var(--paper); color: var(--navy); font: inherit; font-weight: 700; font-size: 14px;
     appearance: none; -webkit-appearance: none;
   }
-  .controls select, .filters select {
+  .controls select {
     padding-right: 36px;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%230B1A3A' stroke-width='2.5'/%3E%3C/svg%3E");
     background-repeat: no-repeat; background-position: right 14px center;
@@ -162,7 +162,6 @@
     background: var(--paper); border: var(--bd); border-radius: var(--r-lg);
     padding: 22px; min-width: 0; box-shadow: var(--shadow);
   }
-  .card + .card, .grid + .card { margin-top: 0; }
   .stack > * + * { margin-top: var(--gap); }
   .card-head {
     display: flex; align-items: center; justify-content: space-between;
@@ -202,8 +201,6 @@
     display: inline-block; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 900;
     line-height: 22px; white-space: nowrap; border: var(--bd-thin);
   }
-  .tag.pass { background: #D6F0E1; color: var(--pass); border-color: var(--pass); }
-  .tag.fail { background: var(--orange-soft); color: var(--fail); border-color: var(--fail); }
   .tag.in { background: var(--navy); color: var(--cream); border-color: var(--navy); }
   .tag.out { background: var(--orange); color: var(--navy); }
   .dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; border: 1.5px solid var(--navy); margin-right: 7px; vertical-align: -1px; }
@@ -262,13 +259,6 @@
   .st .t { font-size: 13px; font-weight: 700; }
   .st .t em { font-style: normal; font-size: 11px; font-weight: 700; color: var(--muted); display: block; margin-top: 2px; }
 
-  /* ---------- Query filters ---------- */
-  .filters { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
-  .filters input[type="search"] { min-width: 220px; flex: 1; }
-  .filters .count { font-size: 13px; font-weight: 900; margin-left: auto; white-space: nowrap; }
-  .switch { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 900; cursor: pointer; user-select: none; }
-  .switch input { width: 18px; height: 18px; accent-color: var(--orange); }
-
   /* ---------- States ---------- */
   .state {
     background: var(--paper); border: var(--bd); border-radius: var(--r-lg); box-shadow: var(--shadow);
@@ -301,20 +291,18 @@
     .tabs-inner { padding: 10px 16px; }
     footer .wrap { padding: 14px 16px 24px; }
     .mast h1 { font-size: 32px; }
-    .mast h1 .pill-title { padding: 0 14px 3px; }
+    .mast h1 .pill-title { padding: 0 14px 3px; margin: 8px 0 0; }
     .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
     .kpi { padding: 14px 16px; }
     .kpi .value { font-size: 30px; }
     .card { padding: 16px; }
     .sec-head h2 { font-size: 24px; }
     .day-grid { grid-template-columns: minmax(0, 1fr); }
-    .filters input[type="search"] { min-width: 100%; }
-    .filters .count { margin-left: 0; }
     .rank li { grid-template-columns: 34px minmax(0, 1fr) 40px; }
     .rank li .bar-track { display: none; }
   }
   @media print {
-    nav.tabs, .controls, .btn, .filters { display: none !important; }
+    nav.tabs, .controls, .btn { display: none !important; }
     .panel { display: block !important; page-break-after: always; }
   }
 </style>
@@ -348,12 +336,11 @@
 </header>
 
 <nav class="tabs">
-  <div class="wrap tabs-inner" role="tablist" style="padding-left:28px;padding-right:28px">
+  <div class="wrap tabs-inner" role="tablist">
     <button class="tab active" data-tab="pass"><span class="no">01</span>考生通過分析</button>
     <button class="tab" data-tab="topic"><span class="no">02</span>考題分析</button>
     <button class="tab" data-tab="cross"><span class="no">03</span>交叉分析</button>
     <button class="tab" data-tab="byyear"><span class="no">04</span>歷年考場題目</button>
-    <button class="tab" data-tab="query"><span class="no">05</span>資料查詢</button>
   </div>
 </nav>
 
@@ -474,47 +461,6 @@
         <div id="yearBlocks"></div>
       </section>
 
-      <!-- ============ 05 資料查詢 ============ -->
-      <section class="panel" id="panel-query">
-        <div class="sec-head"><span class="no">05</span><h2>資料查詢</h2><p>篩選、搜尋並匯出 CSV</p></div>
-        <div class="stack">
-          <div class="card">
-            <div class="card-head">
-              <h3>考題查詢</h3>
-              <button class="btn btn-navy" id="btnExportQ">匯出 CSV</button>
-            </div>
-            <div class="filters">
-              <select id="qDept"><option value="">全部科別</option></select>
-              <select id="qItem"><option value="">全部測驗項目</option></select>
-              <input type="search" id="qKey" placeholder="搜尋題目關鍵字，例如：胸痛、插管">
-              <span class="count" id="qCount"></span>
-            </div>
-            <div class="table-wrap scroll-y"><table id="tQ"></table></div>
-          </div>
-          <div class="card">
-            <div class="card-head">
-              <h3>考生名單查詢</h3>
-              <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
-                <label class="switch"><input type="checkbox" id="maskName" checked>姓名遮蔽</label>
-                <button class="btn btn-navy" id="btnExportE">匯出 CSV</button>
-              </div>
-            </div>
-            <div class="filters">
-              <select id="eSchool"><option value="">全部學校</option></select>
-              <select id="eResult">
-                <option value="">全部結果</option>
-                <option value="1">通過</option>
-                <option value="0">未通過</option>
-              </select>
-              <select id="eUnit"><option value="">全部受訓單位</option></select>
-              <input type="search" id="eKey" placeholder="搜尋姓名或學校">
-              <span class="count" id="eCount"></span>
-            </div>
-            <div class="table-wrap scroll-y"><table id="tE"></table></div>
-          </div>
-        </div>
-      </section>
-
     </div>
   </div>
 </main>
@@ -573,12 +519,6 @@ function normSchool(s) {
 function normUnit(s) {
   const t = String(s || '').trim();
   return t || '（未填）';
-}
-function maskName(n) {
-  const s = String(n || '');
-  if (s.length <= 1) return s;
-  if (s.length === 2) return s[0] + '○';
-  return s[0] + '○'.repeat(s.length - 2) + s[s.length - 1];
 }
 function dateKey(d) {
   const p = String(d).split(/[.\/\-]/).map(x => parseInt(x, 10) || 0);
@@ -669,8 +609,6 @@ function renderAll() {
   renderTopic(f);
   renderCross(f);
   renderByYear(f);
-  fillQueryFilters(f);
-  renderQuery();
 }
 
 /* ---------- Chart 共用 ---------- */
@@ -952,53 +890,6 @@ function renderByYear(f) {
   }).join('');
 }
 
-/* ---------- 05 資料查詢 ---------- */
-function fillSelect(id, values, allLabel) {
-  const el = $(id), cur = el.value;
-  el.innerHTML = '<option value="">' + allLabel + '</option>' + values.map(v => '<option>' + esc(v) + '</option>').join('');
-  if (values.includes(cur)) el.value = cur;
-}
-function fillQueryFilters(f) {
-  fillSelect('qDept', sortedEntries(countBy(f.Q, q => q.dept)).map(x => x[0]), '全部科別');
-  fillSelect('qItem', orderItems(uniq(f.Q.map(q => q.item))), '全部測驗項目');
-  fillSelect('eSchool', sortedEntries(countBy(f.E, e => e.school)).map(x => x[0]), '全部學校');
-  fillSelect('eUnit', sortedEntries(countBy(f.E, e => e.unit)).map(x => x[0]), '全部受訓單位');
-}
-function queryQ() {
-  const f = filtered(), d = $('qDept').value, it = $('qItem').value, k = $('qKey').value.trim();
-  return f.Q.filter(q => (!d || q.dept === d) && (!it || q.item === it) && (!k || (q.title + q.dept + q.item).includes(k)))
-    .sort((a, b) => b.y - a.y || dateKey(a.date) - dateKey(b.date));
-}
-function queryE() {
-  const f = filtered(), s = $('eSchool').value, r = $('eResult').value, u = $('eUnit').value, k = $('eKey').value.trim();
-  return f.E.filter(e => (!s || e.school === s) && (r === '' || String(+e.passed) === r) && (!u || e.unit === u) && (!k || (e.name + e.school).includes(k)))
-    .sort((a, b) => b.y - a.y || a.school.localeCompare(b.school, 'zh-Hant'));
-}
-function renderQuery() {
-  const q = queryQ();
-  $('qCount').textContent = '共 ' + q.length + ' 筆';
-  $('tQ').innerHTML = '<thead><tr><th class="n">年度</th><th>考試日期</th><th>科別</th><th>測驗項目</th><th>題目</th></tr></thead><tbody>' +
-    (q.length ? q.map(x => '<tr><td class="n">' + x.y + '</td><td class="num">' + esc(x.date) + '</td><td class="strong">' + esc(x.dept) + '</td><td style="white-space:nowrap"><span class="dot" style="background:' + itemColor(x.item) + '"></span>' + esc(x.item) + '</td><td>' + esc(x.title) + '</td></tr>').join('')
-      : '<tr><td colspan="5" class="empty">查無符合的考題</td></tr>') + '</tbody>';
-
-  const e = queryE(), mask = $('maskName').checked;
-  $('eCount').textContent = '共 ' + e.length + ' 筆';
-  $('tE').innerHTML = '<thead><tr><th class="n">年度</th><th>考生</th><th>學校</th><th class="c">結果</th><th class="c">受訓單位</th></tr></thead><tbody>' +
-    (e.length ? e.map(x => '<tr><td class="n">' + x.y + '</td><td class="strong">' + esc(mask ? maskName(x.name) : x.name) + '</td><td>' + esc(x.school) + '</td>' +
-      '<td class="c"><span class="tag ' + (x.passed ? 'pass' : 'fail') + '">' + (x.passed ? '通過' : '未通過') + '</span></td>' +
-      '<td class="c"><span class="tag ' + (x.unit === '院內' ? 'in' : 'out') + '">' + esc(x.unit) + '</span></td></tr>').join('')
-      : '<tr><td colspan="5" class="empty">查無符合的考生</td></tr>') + '</tbody>';
-}
-function exportCSV(name, header, rows) {
-  const q = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
-  const csv = '﻿' + [header, ...rows].map(r => r.map(q).join(',')).join('\r\n');
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
-  a.download = name + '_' + S.from + '-' + S.to + '.csv';
-  a.click();
-  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-}
-
 /* ---------- 事件 ---------- */
 document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
   document.querySelectorAll('.tab').forEach(x => x.classList.toggle('active', x === t));
@@ -1017,13 +908,6 @@ $('btnAllYears').addEventListener('click', () => {
   $('yFrom').value = S.from; $('yTo').value = S.to; renderAll();
 });
 $('btnReload').addEventListener('click', () => load(true));
-['qDept', 'qItem', 'eSchool', 'eResult', 'eUnit', 'maskName'].forEach(id => $(id).addEventListener('change', renderQuery));
-['qKey', 'eKey'].forEach(id => $(id).addEventListener('input', renderQuery));
-$('btnExportQ').addEventListener('click', () => exportCSV('OSCE國考考題', ['年度', '考試日期', '科別', '測驗項目', '題目'], queryQ().map(x => [x.y, x.date, x.dept, x.item, x.title])));
-$('btnExportE').addEventListener('click', () => {
-  const mask = $('maskName').checked;
-  exportCSV('OSCE國考考生', ['年度', '考生', '學校', '通過與否', '受訓單位'], queryE().map(x => [x.y, mask ? maskName(x.name) : x.name, x.school, x.passed ? '通過' : '未通過', x.unit]));
-});
 
 load(false);
 </script>
