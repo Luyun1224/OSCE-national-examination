@@ -6,236 +6,285 @@
 <title>OSCE 國考考題分析</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   /* =========================================================
      奇美醫院歷屆 OSCE 國考考題分析儀表板
-     Briefing Deck：深藍 #0B1A3A ＋ 橘 #F39220
+     Modern Neo-Brutalism × Retro Editorial Dashboard
+     活力橘 #FF7A00 ・ 深海軍藍 #0B1A3A ・ 奶油白 #FFF4E2
      ========================================================= */
   :root {
     --navy: #0B1A3A;
-    --navy-2: #1E3366;
-    --navy-3: #2E5A9C;
-    --orange: #F39220;
-    --orange-soft: #FDEBD6;
-    --teal: #4E9A97;
-    --gray: #8A94A6;
-    --bg: #F4F6FA;
-    --card: #FFFFFF;
-    --line: #E3E7EF;
-    --text: #1A2338;
-    --muted: #6B7489;
-    --pass: #2E7D5B;
-    --fail: #C2410C;
-    --radius: 12px;
-    --gap: 16px;
+    --navy-2: #3D5A99;
+    --orange: #FF7A00;
+    --orange-2: #FFC46B;
+    --orange-soft: #FFE1B8;
+    --cream: #FFF4E2;
+    --paper: #FFFBF3;
+    --muted: #5A6273;
+    --pass: #1F7A4D;
+    --fail: #D14800;
+    --bd: 2.5px solid var(--navy);
+    --bd-thin: 1.5px solid var(--navy);
+    --shadow: 5px 5px 0 var(--navy);
+    --shadow-sm: 3px 3px 0 var(--navy);
+    --r-lg: 22px;
+    --r-md: 14px;
+    --gap: 20px;
+    --num: 'Archivo Black', 'Noto Sans TC', sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: var(--bg); }
+  html, body { background: var(--cream); }
   body {
     font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
-    color: var(--text);
+    color: var(--navy);
     font-size: 14px;
+    font-weight: 500;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
-  .num, td.n, th.n { font-variant-numeric: tabular-nums; }
+  .num, td.n { font-variant-numeric: tabular-nums; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 28px; }
 
-  /* ---------- Header ---------- */
-  header {
-    background: var(--navy);
-    color: #fff;
+  /* ---------- Masthead ---------- */
+  header { padding-top: 22px; }
+  .topline {
+    display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+    font-size: 12px; font-weight: 700; letter-spacing: .14em;
+    padding-bottom: 10px; border-bottom: var(--bd);
   }
-  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
-  .head-inner {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 16px; padding: 22px 0 18px; flex-wrap: wrap;
+  .topline .issue { font-family: var(--num); letter-spacing: .08em; }
+  .mast {
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 20px;
+    flex-wrap: wrap; padding: 22px 0 20px; border-bottom: 6px solid var(--navy);
   }
-  .brand small {
-    display: block; font-size: 12px; letter-spacing: .12em;
-    color: rgba(255,255,255,.62); margin-bottom: 2px;
+  .mast h1 {
+    font-size: 52px; font-weight: 900; line-height: 1.08; letter-spacing: -.01em;
   }
-  .brand h1 { font-size: 22px; font-weight: 700; letter-spacing: .02em; }
-  .brand h1 span { color: var(--orange); }
-  .head-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-  .head-meta .stamp { font-size: 12px; color: rgba(255,255,255,.7); }
+  .mast h1 .pill-title {
+    display: inline-block; background: var(--orange); color: var(--navy);
+    border: var(--bd); border-radius: 999px; padding: 0 22px 4px;
+    box-shadow: var(--shadow); margin-left: 6px;
+  }
+  .mast .lede { margin-top: 12px; font-size: 15px; font-weight: 700; color: var(--muted); max-width: 640px; }
+  .mast-side { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+  .stamp {
+    font-size: 12px; font-weight: 700; background: var(--paper); border: var(--bd-thin);
+    border-radius: 999px; padding: 4px 12px;
+  }
 
   .controls {
-    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-    padding: 12px 0 14px; border-top: 1px solid rgba(255,255,255,.12);
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 16px 0 18px;
   }
-  .controls label { font-size: 13px; color: rgba(255,255,255,.8); }
-  .controls select {
-    height: 34px; padding: 0 10px; border-radius: 8px;
-    border: 1px solid rgba(255,255,255,.25); background: var(--navy-2);
-    color: #fff; font: inherit; font-size: 13px;
+  .controls .lab { font-weight: 900; font-size: 14px; margin-right: 2px; }
+  .controls select, .filters select, .filters input {
+    height: 40px; padding: 0 16px; border-radius: 999px; border: var(--bd);
+    background: var(--paper); color: var(--navy); font: inherit; font-weight: 700; font-size: 14px;
+    appearance: none; -webkit-appearance: none;
   }
-  .controls .sep { color: rgba(255,255,255,.5); }
+  .controls select, .filters select {
+    padding-right: 36px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%230B1A3A' stroke-width='2.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center;
+  }
+  .controls .sep { font-weight: 900; }
+
   .btn {
-    height: 34px; padding: 0 14px; border-radius: 8px; border: 1px solid transparent;
-    font: inherit; font-size: 13px; cursor: pointer; display: inline-flex;
-    align-items: center; gap: 6px; white-space: nowrap;
+    height: 40px; padding: 0 20px; border-radius: 999px; border: var(--bd);
+    font: inherit; font-weight: 900; font-size: 14px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+    background: var(--paper); color: var(--navy); box-shadow: var(--shadow-sm);
+    transition: transform .08s, box-shadow .08s;
   }
-  .btn-orange { background: var(--orange); color: var(--navy); font-weight: 700; }
-  .btn-orange:hover { filter: brightness(1.05); }
-  .btn-ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,.3); }
-  .btn-ghost:hover { background: rgba(255,255,255,.08); }
-  .btn-line { background: #fff; color: var(--navy); border-color: var(--line); }
-  .btn-line:hover { border-color: var(--navy-3); }
+  .btn:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--navy); }
+  .btn:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--navy); }
+  .btn-orange { background: var(--orange); }
+  .btn-navy { background: var(--navy); color: var(--cream); }
 
   /* ---------- Tabs ---------- */
   nav.tabs {
-    background: #fff; border-bottom: 1px solid var(--line);
-    position: sticky; top: 0; z-index: 20;
+    position: sticky; top: 0; z-index: 20; background: var(--cream);
+    border-top: var(--bd); border-bottom: var(--bd);
   }
-  .tabs-inner { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+  .tabs-inner { display: flex; gap: 10px; overflow-x: auto; padding: 12px 28px; scrollbar-width: none; }
   .tabs-inner::-webkit-scrollbar { display: none; }
   .tab {
-    flex: 0 0 auto; padding: 14px 16px 12px; font-size: 14px; font-weight: 500;
-    color: var(--muted); background: none; border: none; cursor: pointer;
-    border-bottom: 3px solid transparent; font-family: inherit;
+    flex: 0 0 auto; height: 40px; padding: 0 20px; border-radius: 999px; border: var(--bd);
+    background: var(--paper); color: var(--navy); font: inherit; font-weight: 900; font-size: 14px;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
   }
-  .tab:hover { color: var(--navy); }
-  .tab.active { color: var(--navy); border-bottom-color: var(--orange); font-weight: 700; }
+  .tab .no { font-family: var(--num); font-size: 12px; opacity: .55; }
+  .tab:hover { background: var(--orange-soft); }
+  .tab.active { background: var(--navy); color: var(--cream); box-shadow: var(--shadow-sm); }
+  .tab.active .no { color: var(--orange); opacity: 1; }
 
-  main { padding: 24px 0 48px; }
+  main { padding: 32px 0 56px; }
   .panel { display: none; }
   .panel.active { display: block; }
+
+  .sec-head {
+    display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;
+    margin: 8px 0 20px; padding-bottom: 10px; border-bottom: var(--bd);
+  }
+  .sec-head .no { font-family: var(--num); font-size: 40px; line-height: 1; color: var(--orange); -webkit-text-stroke: 1.5px var(--navy); }
+  .sec-head h2 { font-size: 30px; font-weight: 900; line-height: 1.2; }
+  .sec-head p { font-size: 13px; font-weight: 700; color: var(--muted); margin-left: auto; }
 
   /* ---------- KPI ---------- */
   .kpis {
     display: grid; grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: var(--gap); margin-bottom: 24px;
+    gap: var(--gap); margin-bottom: 36px;
   }
   .kpi {
-    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 16px 18px;
+    background: var(--paper); border: var(--bd); border-radius: var(--r-lg);
+    padding: 18px 20px 16px; box-shadow: var(--shadow);
+    display: flex; flex-direction: column;
   }
-  .kpi .label { font-size: 12px; color: var(--muted); letter-spacing: .04em; }
-  .kpi .value { font-size: 28px; font-weight: 700; color: var(--navy); line-height: 1.25; margin-top: 4px; }
-  .kpi .value small { font-size: 14px; font-weight: 500; color: var(--muted); margin-left: 2px; }
-  .kpi .sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
-  .kpi.hl { background: var(--navy); border-color: var(--navy); }
-  .kpi.hl .label, .kpi.hl .sub { color: rgba(255,255,255,.7); }
-  .kpi.hl .value { color: var(--orange); }
-  .kpi.hl .value small { color: rgba(255,255,255,.7); }
+  .kpi .label { font-size: 13px; font-weight: 900; }
+  .kpi .value { font-family: var(--num); font-size: 38px; line-height: 1.1; margin-top: 10px; letter-spacing: -.01em; }
+  .kpi .value small { font-family: 'Noto Sans TC', sans-serif; font-size: 15px; font-weight: 900; margin-left: 4px; }
+  .kpi .sub {
+    font-size: 12px; font-weight: 700; color: var(--muted);
+    margin-top: auto; padding-top: 10px; border-top: 1.5px dashed rgba(11,26,58,.35);
+  }
+  .kpi.hl { background: var(--orange); }
+  .kpi.hl .sub { color: var(--navy); border-top-color: rgba(11,26,58,.5); }
+  .kpi.dk { background: var(--navy); color: var(--cream); }
+  .kpi.dk .value { color: var(--orange); }
+  .kpi.dk .sub { color: rgba(255,244,226,.75); border-top-color: rgba(255,244,226,.35); }
 
   /* ---------- Cards / Grid ---------- */
   .grid { display: grid; gap: var(--gap); margin-bottom: var(--gap); }
   .g-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .g-3-1 { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
   .card {
-    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 20px; min-width: 0;
+    background: var(--paper); border: var(--bd); border-radius: var(--r-lg);
+    padding: 22px; min-width: 0; box-shadow: var(--shadow);
   }
+  .card + .card, .grid + .card { margin-top: 0; }
+  .stack > * + * { margin-top: var(--gap); }
   .card-head {
-    display: flex; align-items: baseline; justify-content: space-between;
-    gap: 12px; margin-bottom: 14px; flex-wrap: wrap;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; margin-bottom: 16px; flex-wrap: wrap;
   }
-  .card-head h2 { font-size: 16px; font-weight: 700; color: var(--navy); }
-  .card-head .note { font-size: 12px; color: var(--muted); }
+  .card-head h3 { font-size: 19px; font-weight: 900; line-height: 1.3; }
+  .chip {
+    display: inline-block; font-size: 12px; font-weight: 700; line-height: 1.5;
+    padding: 3px 12px; border: var(--bd-thin); border-radius: 999px; background: var(--cream);
+  }
   .chart-box { position: relative; height: 300px; }
   .chart-box.tall { height: 380px; }
-  .chart-box.short { height: 240px; }
+  .chart-box.short { height: 250px; }
 
   /* ---------- Tables ---------- */
-  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: middle; }
-  th { background: #F7F8FB; color: var(--navy); font-weight: 700; white-space: nowrap; position: sticky; top: 0; }
+  .table-wrap { overflow-x: auto; border: var(--bd); border-radius: var(--r-md); background: var(--paper); }
+  table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
+  th, td { padding: 10px 14px; text-align: left; vertical-align: middle; border-bottom: 1.5px solid rgba(11,26,58,.15); }
+  th {
+    background: var(--navy); color: var(--cream); font-weight: 900; white-space: nowrap;
+    position: sticky; top: 0; z-index: 2; border-bottom: none;
+  }
   tbody tr:last-child td { border-bottom: none; }
-  tbody tr:hover td { background: #FAFBFD; }
+  tbody tr:hover td { background: #FFF0D9; }
   th.n, td.n { text-align: right; }
   th.c, td.c { text-align: center; }
-  .scroll-y { max-height: 520px; overflow-y: auto; }
+  td.strong { font-weight: 900; }
+  .scroll-y { max-height: 540px; overflow-y: auto; }
 
-  .bar-cell { display: flex; align-items: center; gap: 8px; min-width: 150px; }
-  .bar-track { flex: 1; height: 8px; background: #EEF1F6; border-radius: 4px; overflow: hidden; }
-  .bar-fill { height: 100%; background: var(--navy-3); border-radius: 4px; }
+  .bar-cell { display: flex; align-items: center; gap: 10px; min-width: 160px; }
+  .bar-track { flex: 1; height: 12px; background: var(--cream); border: var(--bd-thin); border-radius: 999px; overflow: hidden; }
+  .bar-fill { height: 100%; background: var(--navy); }
   .bar-fill.warn { background: var(--orange); }
-  .bar-cell .num { width: 52px; text-align: right; }
+  .bar-cell .num { width: 54px; text-align: right; font-weight: 900; }
 
   .tag {
-    display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px;
-    line-height: 20px; white-space: nowrap; border: 1px solid transparent;
+    display: inline-block; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 900;
+    line-height: 22px; white-space: nowrap; border: var(--bd-thin);
   }
-  .tag.pass { color: var(--pass); background: #E6F3EC; }
-  .tag.fail { color: var(--fail); background: #FDECE3; }
-  .tag.in { color: var(--navy); background: #E7ECF6; }
-  .tag.out { color: #7A4B0E; background: var(--orange-soft); }
-  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+  .tag.pass { background: #D6F0E1; color: var(--pass); border-color: var(--pass); }
+  .tag.fail { background: var(--orange-soft); color: var(--fail); border-color: var(--fail); }
+  .tag.in { background: var(--navy); color: var(--cream); border-color: var(--navy); }
+  .tag.out { background: var(--orange); color: var(--navy); }
+  .dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; border: 1.5px solid var(--navy); margin-right: 7px; vertical-align: -1px; }
 
-  /* ---------- Heatmap / Matrix ---------- */
-  .matrix td, .matrix th { text-align: center; padding: 8px 10px; }
-  .matrix th:first-child, .matrix td:first-child { text-align: left; position: sticky; left: 0; background: #fff; z-index: 1; white-space: nowrap; }
-  .matrix thead th:first-child { background: #F7F8FB; z-index: 2; }
-  .matrix td.cell { font-variant-numeric: tabular-nums; min-width: 64px; }
-  .matrix td.cell small { display: block; font-size: 11px; opacity: .8; line-height: 1.2; }
-  .matrix td.total, .matrix th.total { background: #F7F8FB; font-weight: 700; }
-  .legend { display: flex; align-items: center; gap: 14px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
-  .legend .sw { display: inline-block; width: 14px; height: 14px; border-radius: 3px; margin-right: 5px; vertical-align: -2px; border: 1px solid var(--line); }
+  /* ---------- Matrix ---------- */
+  .matrix th, .matrix td { text-align: center; padding: 9px 10px; }
+  .matrix th:first-child, .matrix td:first-child {
+    text-align: left; position: sticky; left: 0; z-index: 1; white-space: nowrap;
+    background: var(--paper); font-weight: 900; border-right: var(--bd-thin);
+  }
+  .matrix thead th:first-child { background: var(--navy); z-index: 3; }
+  .matrix td.cell { font-variant-numeric: tabular-nums; min-width: 66px; font-weight: 900; }
+  .matrix td.cell small { display: block; font-size: 11px; font-weight: 700; opacity: .8; line-height: 1.2; }
+  .matrix tr.sum td { border-top: var(--bd); }
+  .matrix td.total { border-left: var(--bd-thin); font-weight: 900; }
+  .legend { display: flex; align-items: center; gap: 12px; font-size: 12px; font-weight: 700; flex-wrap: wrap; }
+  .legend .sw { display: inline-block; width: 16px; height: 16px; border-radius: 5px; margin-right: 5px; vertical-align: -3px; border: var(--bd-thin); }
 
   /* ---------- Ranking list ---------- */
   .rank { list-style: none; }
   .rank li {
-    display: grid; grid-template-columns: 28px minmax(0, 1fr) 96px 44px;
-    align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px dashed var(--line);
+    display: grid; grid-template-columns: 34px minmax(0, 1fr) 100px 40px;
+    align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1.5px dashed rgba(11,26,58,.3);
   }
   .rank li:last-child { border-bottom: none; }
-  .rank .no { font-size: 12px; color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
+  .rank .no {
+    width: 30px; height: 30px; border-radius: 50%; border: var(--bd-thin); background: var(--cream);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--num); font-size: 12px;
+  }
+  .rank li:nth-child(-n+3) .no { background: var(--orange); }
   .rank .txt { min-width: 0; }
-  .rank .txt b { font-weight: 500; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .rank .txt span { font-size: 12px; color: var(--muted); }
-  .rank .cnt { text-align: right; font-weight: 700; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .rank .txt b { font-weight: 900; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .rank .txt span { font-size: 12px; font-weight: 700; color: var(--muted); }
+  .rank .cnt { text-align: right; font-family: var(--num); font-size: 18px; }
 
   /* ---------- Year blocks ---------- */
-  .year-block { margin-bottom: 20px; }
-  .year-title {
-    display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px;
-    padding-bottom: 8px; border-bottom: 1px solid var(--line);
+  .year-block { margin-bottom: 36px; }
+  .year-title { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 16px; }
+  .year-title h3 {
+    font-family: var(--num); font-size: 28px; line-height: 1;
+    background: var(--navy); color: var(--cream); padding: 10px 20px; border-radius: 999px;
   }
-  .year-title h3 { font-size: 18px; color: var(--navy); }
-  .year-title span { font-size: 12px; color: var(--muted); }
-  .day-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--gap); }
-  .day-card { background: #fff; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .year-title h3 small { font-family: 'Noto Sans TC', sans-serif; font-size: 15px; font-weight: 900; margin-left: 4px; }
+  .day-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: var(--gap); }
+  .day-card { background: var(--paper); border: var(--bd); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow); }
   .day-card .dh {
-    background: #F7F8FB; padding: 10px 14px; font-weight: 700; color: var(--navy);
-    display: flex; justify-content: space-between; border-bottom: 1px solid var(--line);
+    background: var(--orange); padding: 12px 18px; font-family: var(--num); font-size: 18px;
+    display: flex; justify-content: space-between; align-items: center; border-bottom: var(--bd);
   }
-  .day-card .dh span { font-weight: 400; color: var(--muted); font-size: 12px; }
-  .st { display: grid; grid-template-columns: 22px 44px minmax(0, 1fr); gap: 8px; padding: 8px 14px; border-bottom: 1px solid #F0F2F6; align-items: start; }
+  .day-card .dh span { font-family: 'Noto Sans TC', sans-serif; font-size: 12px; font-weight: 900; }
+  .st { display: grid; grid-template-columns: 24px 48px minmax(0, 1fr); gap: 10px; padding: 10px 18px; border-bottom: 1.5px dashed rgba(11,26,58,.2); align-items: start; }
   .st:last-child { border-bottom: none; }
-  .st .i { font-size: 12px; color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; padding-top: 1px; }
-  .st .d { font-size: 12px; color: var(--navy); font-weight: 700; padding-top: 1px; }
-  .st .t { font-size: 13px; }
-  .st .t em { font-style: normal; font-size: 11px; color: var(--muted); display: block; }
+  .st .i { font-family: var(--num); font-size: 12px; text-align: right; padding-top: 2px; }
+  .st .d { font-size: 12px; font-weight: 900; text-align: center; border: var(--bd-thin); border-radius: 999px; line-height: 20px; }
+  .st .t { font-size: 13px; font-weight: 700; }
+  .st .t em { font-style: normal; font-size: 11px; font-weight: 700; color: var(--muted); display: block; margin-top: 2px; }
 
   /* ---------- Query filters ---------- */
-  .filters { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
-  .filters select, .filters input {
-    height: 34px; padding: 0 10px; border-radius: 8px; border: 1px solid var(--line);
-    font: inherit; font-size: 13px; background: #fff; color: var(--text);
-  }
-  .filters input[type="search"] { min-width: 200px; flex: 1; }
-  .filters .count { font-size: 12px; color: var(--muted); margin-left: auto; white-space: nowrap; }
-  .switch { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); cursor: pointer; user-select: none; }
+  .filters { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+  .filters input[type="search"] { min-width: 220px; flex: 1; }
+  .filters .count { font-size: 13px; font-weight: 900; margin-left: auto; white-space: nowrap; }
+  .switch { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 900; cursor: pointer; user-select: none; }
+  .switch input { width: 18px; height: 18px; accent-color: var(--orange); }
 
   /* ---------- States ---------- */
   .state {
-    background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 48px 24px; text-align: center; color: var(--muted);
+    background: var(--paper); border: var(--bd); border-radius: var(--r-lg); box-shadow: var(--shadow);
+    padding: 56px 24px; text-align: center; font-weight: 700;
   }
-  .state h3 { color: var(--navy); margin-bottom: 8px; font-size: 18px; }
-  .state code { background: #F1F3F8; padding: 2px 6px; border-radius: 4px; font-size: 12px; }
+  .state h3 { font-size: 22px; font-weight: 900; margin-bottom: 8px; }
+  .state code { background: var(--cream); border: var(--bd-thin); padding: 1px 8px; border-radius: 6px; font-size: 12px; }
   .spinner {
-    width: 32px; height: 32px; border-radius: 50%; margin: 0 auto 14px;
-    border: 3px solid var(--line); border-top-color: var(--orange); animation: spin 1s linear infinite;
+    width: 40px; height: 40px; border-radius: 50%; margin: 0 auto 16px;
+    border: 4px solid var(--orange-soft); border-top-color: var(--navy); animation: spin 1s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .empty { padding: 24px; text-align: center; color: var(--muted); font-size: 13px; }
+  .empty { padding: 24px; text-align: center; font-weight: 700; color: var(--muted); }
 
-  footer { text-align: center; font-size: 12px; color: var(--muted); padding: 0 0 32px; }
+  footer { border-top: var(--bd); }
+  footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 16px 28px 28px; font-size: 12px; font-weight: 700; }
 
   /* ---------- Responsive ---------- */
   @media (max-width: 1100px) {
@@ -243,21 +292,30 @@
   }
   @media (max-width: 860px) {
     .g-2, .g-3-1 { grid-template-columns: minmax(0, 1fr); }
+    .mast h1 { font-size: 40px; }
+    .mast-side { align-items: flex-start; }
+    .sec-head p { margin-left: 0; width: 100%; }
   }
   @media (max-width: 560px) {
     .wrap { padding: 0 16px; }
-    .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-    .kpi .value { font-size: 24px; }
-    .brand h1 { font-size: 19px; }
+    .tabs-inner { padding: 10px 16px; }
+    footer .wrap { padding: 14px 16px 24px; }
+    .mast h1 { font-size: 32px; }
+    .mast h1 .pill-title { padding: 0 14px 3px; }
+    .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .kpi { padding: 14px 16px; }
+    .kpi .value { font-size: 30px; }
     .card { padding: 16px; }
+    .sec-head h2 { font-size: 24px; }
     .day-grid { grid-template-columns: minmax(0, 1fr); }
     .filters input[type="search"] { min-width: 100%; }
     .filters .count { margin-left: 0; }
+    .rank li { grid-template-columns: 34px minmax(0, 1fr) 40px; }
+    .rank li .bar-track { display: none; }
   }
   @media print {
     nav.tabs, .controls, .btn, .filters { display: none !important; }
     .panel { display: block !important; page-break-after: always; }
-    body, html { background: #fff; }
   }
 </style>
 </head>
@@ -265,33 +323,37 @@
 
 <header>
   <div class="wrap">
-    <div class="head-inner">
-      <div class="brand">
-        <small>CHI MEI MEDICAL CENTER ・ 教學部臨床技能中心</small>
-        <h1>歷屆 <span>OSCE 國考</span>考題分析</h1>
+    <div class="topline">
+      <span>CHI MEI MEDICAL CENTER ・ 教學部臨床技能中心</span>
+      <span class="issue" id="issue">NATIONAL OSCE ARCHIVE</span>
+    </div>
+    <div class="mast">
+      <div>
+        <h1>歷屆 OSCE 國考<span class="pill-title">考題分析</span></h1>
+        <p class="lede">以國考當天奇美考場分配到的考題為範圍，整理歷年題型、應考人數、通過率與學校交叉分析。</p>
       </div>
-      <div class="head-meta">
+      <div class="mast-side">
         <span class="stamp" id="stamp">資料載入中…</span>
-        <button class="btn btn-ghost" id="btnReload" title="略過快取重新讀取試算表">↻ 重新整理</button>
+        <button class="btn btn-orange" id="btnReload" title="略過快取重新讀取試算表">↻ 重新整理</button>
       </div>
     </div>
     <div class="controls">
-      <label for="yFrom">年度範圍</label>
-      <select id="yFrom"></select>
+      <span class="lab">年度範圍</span>
+      <select id="yFrom" aria-label="起始年度"></select>
       <span class="sep">～</span>
-      <select id="yTo"></select>
-      <button class="btn btn-ghost" id="btnAllYears">全部年度</button>
+      <select id="yTo" aria-label="結束年度"></select>
+      <button class="btn" id="btnAllYears">全部年度</button>
     </div>
   </div>
 </header>
 
 <nav class="tabs">
-  <div class="wrap tabs-inner" role="tablist">
-    <button class="tab active" data-tab="pass">考生通過分析</button>
-    <button class="tab" data-tab="topic">考題分析</button>
-    <button class="tab" data-tab="cross">交叉分析</button>
-    <button class="tab" data-tab="byyear">歷年考場題目</button>
-    <button class="tab" data-tab="query">資料查詢</button>
+  <div class="wrap tabs-inner" role="tablist" style="padding-left:28px;padding-right:28px">
+    <button class="tab active" data-tab="pass"><span class="no">01</span>考生通過分析</button>
+    <button class="tab" data-tab="topic"><span class="no">02</span>考題分析</button>
+    <button class="tab" data-tab="cross"><span class="no">03</span>交叉分析</button>
+    <button class="tab" data-tab="byyear"><span class="no">04</span>歷年考場題目</button>
+    <button class="tab" data-tab="query"><span class="no">05</span>資料查詢</button>
   </div>
 </nav>
 
@@ -306,186 +368,150 @@
 
     <div id="app" hidden>
 
-      <!-- KPI -->
       <section class="kpis" id="kpis"></section>
 
-      <!-- ============ 考生通過分析 ============ -->
+      <!-- ============ 01 考生通過分析 ============ -->
       <section class="panel active" id="panel-pass">
+        <div class="sec-head"><span class="no">01</span><h2>考生通過分析</h2><p>應考人數、通過率與受訓單位、學校來源</p></div>
         <div class="grid g-3-1">
           <div class="card">
             <div class="card-head">
-              <h2>各年度應考人數與通過率</h2>
-              <span class="note">長條：人數（通過／未通過）・折線：通過率</span>
+              <h3>各年度應考人數與通過率</h3>
+              <span class="chip">長條：通過／未通過 ・ 折線：通過率</span>
             </div>
             <div class="chart-box tall"><canvas id="cYearPass"></canvas></div>
           </div>
           <div class="card">
             <div class="card-head">
-              <h2>受訓單位比較</h2>
-              <span class="note">院內 vs 院外</span>
+              <h3>受訓單位比較</h3>
+              <span class="chip">院內 vs 院外</span>
             </div>
             <div class="chart-box short"><canvas id="cUnit"></canvas></div>
-            <div class="table-wrap" style="margin-top:14px">
-              <table id="tUnit"></table>
-            </div>
+            <div class="table-wrap" style="margin-top:16px"><table id="tUnit"></table></div>
           </div>
         </div>
-
         <div class="card">
           <div class="card-head">
-            <h2>各校應考人數與通過率</h2>
-            <span class="note">依應考人數排序；學校名稱已自動統一「台／臺」與財團法人全銜</span>
+            <h3>各校應考人數與通過率</h3>
+            <span class="chip">依人數排序・已統一「台／臺」與財團法人全銜</span>
           </div>
-          <div class="table-wrap scroll-y">
-            <table id="tSchool"></table>
-          </div>
+          <div class="table-wrap scroll-y"><table id="tSchool"></table></div>
         </div>
       </section>
 
-      <!-- ============ 考題分析 ============ -->
+      <!-- ============ 02 考題分析 ============ -->
       <section class="panel" id="panel-topic">
+        <div class="sec-head"><span class="no">02</span><h2>考題分析</h2><p>科別、測驗項目、高頻主訴與情境病人設定</p></div>
         <div class="grid g-2">
           <div class="card">
-            <div class="card-head">
-              <h2>科別分佈</h2>
-              <span class="note" id="nDept"></span>
-            </div>
+            <div class="card-head"><h3>科別分佈</h3><span class="chip" id="nDept"></span></div>
             <div class="chart-box"><canvas id="cDept"></canvas></div>
           </div>
           <div class="card">
-            <div class="card-head">
-              <h2>測驗項目分佈</h2>
-              <span class="note" id="nItem"></span>
-            </div>
+            <div class="card-head"><h3>測驗項目分佈</h3><span class="chip" id="nItem"></span></div>
             <div class="chart-box"><canvas id="cItem"></canvas></div>
           </div>
         </div>
-
-        <div class="card" style="margin-bottom:var(--gap)">
-          <div class="card-head">
-            <h2>科別 × 測驗項目 熱度表</h2>
-            <span class="note">數字為題數，顏色越深代表出現越多</span>
-          </div>
-          <div class="table-wrap"><table class="matrix" id="tDeptItem"></table></div>
-        </div>
-
-        <div class="card" style="margin-bottom:var(--gap)">
-          <div class="card-head">
-            <h2>各年度測驗項目組成</h2>
-            <span class="note">每年奇美考場分配到的題型比例</span>
-          </div>
-          <div class="chart-box"><canvas id="cYearItem"></canvas></div>
-        </div>
-
-        <div class="grid g-2">
+        <div class="stack">
           <div class="card">
-            <div class="card-head">
-              <h2>高頻主訴 Top 15</h2>
-              <span class="note">病史／身檢／處置／衛教站，取題目「，」後的主訴</span>
-            </div>
-            <ul class="rank" id="rankComplaint"></ul>
+            <div class="card-head"><h3>科別 × 測驗項目 熱度表</h3><span class="chip">數字為題數・顏色越深出現越多</span></div>
+            <div class="table-wrap"><table class="matrix" id="tDeptItem"></table></div>
           </div>
           <div class="card">
-            <div class="card-head">
-              <h2>高頻技能操作 Top 15</h2>
-              <span class="note">技能操作站題目</span>
+            <div class="card-head"><h3>各年度測驗項目組成</h3><span class="chip">每年奇美考場分配到的題型</span></div>
+            <div class="chart-box"><canvas id="cYearItem"></canvas></div>
+          </div>
+          <div class="grid g-2" style="margin-bottom:0">
+            <div class="card">
+              <div class="card-head"><h3>高頻主訴 Top 15</h3><span class="chip">取題目「，」後的主訴</span></div>
+              <ul class="rank" id="rankComplaint"></ul>
             </div>
-            <ul class="rank" id="rankSkill"></ul>
+            <div class="card">
+              <div class="card-head"><h3>高頻技能操作 Top 15</h3><span class="chip">技能操作站</span></div>
+              <ul class="rank" id="rankSkill"></ul>
+            </div>
           </div>
-        </div>
-
-        <div class="card">
-          <div class="card-head">
-            <h2>情境病人設定：年齡層 × 性別</h2>
-            <span class="note">由題目開頭「○○歲男/女性」自動解析，可作為 SP 招募參考</span>
+          <div class="card">
+            <div class="card-head"><h3>情境病人設定：年齡層 × 性別</h3><span class="chip">由「○○歲男／女性」自動解析・SP 招募參考</span></div>
+            <div class="chart-box short"><canvas id="cPatient"></canvas></div>
           </div>
-          <div class="chart-box short"><canvas id="cPatient"></canvas></div>
         </div>
       </section>
 
-      <!-- ============ 交叉分析 ============ -->
+      <!-- ============ 03 交叉分析 ============ -->
       <section class="panel" id="panel-cross">
-        <div class="card" style="margin-bottom:var(--gap)">
-          <div class="card-head">
-            <h2>學校 × 年度 通過情形</h2>
-            <div class="legend">
-              <span><i class="sw" style="background:#E7ECF6"></i>全數通過</span>
-              <span><i class="sw" style="background:#F9D3A6"></i>部分未通過</span>
-              <span><i class="sw" style="background:#F39220"></i>通過率偏低</span>
-              <span>格內：通過／應考</span>
-            </div>
-          </div>
-          <div class="table-wrap"><table class="matrix" id="tSchoolYear"></table></div>
-        </div>
-
-        <div class="card" style="margin-bottom:var(--gap)">
-          <div class="card-head">
-            <h2>受訓單位 × 年度 通過情形</h2>
-            <span class="note">格內：通過／應考</span>
-          </div>
-          <div class="table-wrap"><table class="matrix" id="tUnitYear"></table></div>
-        </div>
-
-        <div class="grid">
+        <div class="sec-head"><span class="no">03</span><h2>交叉分析</h2><p>格內數字為「通過／應考」，下方為通過率</p></div>
+        <div class="stack">
           <div class="card">
             <div class="card-head">
-              <h2>年度 × 科別 題數</h2>
-              <span class="note">觀察各科出題比重的年度變化</span>
+              <h3>學校 × 年度 通過情形</h3>
+              <div class="legend">
+                <span><i class="sw" style="background:var(--paper)"></i>全數通過</span>
+                <span><i class="sw" style="background:var(--orange-soft)"></i>80% 以上</span>
+                <span><i class="sw" style="background:var(--orange)"></i>未達 80%</span>
+              </div>
             </div>
+            <div class="table-wrap"><table class="matrix" id="tSchoolYear"></table></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>受訓單位 × 年度 通過情形</h3><span class="chip">院內 vs 院外</span></div>
+            <div class="table-wrap"><table class="matrix" id="tUnitYear"></table></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>年度 × 科別 題數</h3><span class="chip">各科出題比重的年度變化</span></div>
             <div class="table-wrap"><table class="matrix" id="tYearDept"></table></div>
           </div>
-        </div>
-
-        <div class="card">
-          <div class="card-head">
-            <h2>年度題型組成 vs 通過率</h2>
-            <span class="note">僅供觀察對照，不代表因果關係</span>
+          <div class="card">
+            <div class="card-head"><h3>年度題型組成 vs 通過率</h3><span class="chip">僅供對照，不代表因果關係</span></div>
+            <div class="table-wrap"><table class="matrix" id="tYearCompare"></table></div>
           </div>
-          <div class="table-wrap"><table class="matrix" id="tYearCompare"></table></div>
         </div>
       </section>
 
-      <!-- ============ 歷年考場題目 ============ -->
+      <!-- ============ 04 歷年考場題目 ============ -->
       <section class="panel" id="panel-byyear">
+        <div class="sec-head"><span class="no">04</span><h2>歷年考場題目</h2><p>依年度與考試日排列，呈現奇美考場每日考站</p></div>
         <div id="yearBlocks"></div>
       </section>
 
-      <!-- ============ 資料查詢 ============ -->
+      <!-- ============ 05 資料查詢 ============ -->
       <section class="panel" id="panel-query">
-        <div class="card" style="margin-bottom:var(--gap)">
-          <div class="card-head">
-            <h2>考題查詢</h2>
-            <button class="btn btn-line" id="btnExportQ">匯出 CSV</button>
-          </div>
-          <div class="filters">
-            <select id="qDept"><option value="">全部科別</option></select>
-            <select id="qItem"><option value="">全部測驗項目</option></select>
-            <input type="search" id="qKey" placeholder="搜尋題目關鍵字，例如：胸痛、插管">
-            <span class="count" id="qCount"></span>
-          </div>
-          <div class="table-wrap scroll-y"><table id="tQ"></table></div>
-        </div>
-
-        <div class="card">
-          <div class="card-head">
-            <h2>考生名單查詢</h2>
-            <div style="display:flex;gap:12px;align-items:center">
-              <label class="switch"><input type="checkbox" id="maskName" checked> 姓名遮蔽</label>
-              <button class="btn btn-line" id="btnExportE">匯出 CSV</button>
+        <div class="sec-head"><span class="no">05</span><h2>資料查詢</h2><p>篩選、搜尋並匯出 CSV</p></div>
+        <div class="stack">
+          <div class="card">
+            <div class="card-head">
+              <h3>考題查詢</h3>
+              <button class="btn btn-navy" id="btnExportQ">匯出 CSV</button>
             </div>
+            <div class="filters">
+              <select id="qDept"><option value="">全部科別</option></select>
+              <select id="qItem"><option value="">全部測驗項目</option></select>
+              <input type="search" id="qKey" placeholder="搜尋題目關鍵字，例如：胸痛、插管">
+              <span class="count" id="qCount"></span>
+            </div>
+            <div class="table-wrap scroll-y"><table id="tQ"></table></div>
           </div>
-          <div class="filters">
-            <select id="eSchool"><option value="">全部學校</option></select>
-            <select id="eResult">
-              <option value="">全部結果</option>
-              <option value="1">通過</option>
-              <option value="0">未通過</option>
-            </select>
-            <select id="eUnit"><option value="">全部受訓單位</option></select>
-            <input type="search" id="eKey" placeholder="搜尋姓名或學校">
-            <span class="count" id="eCount"></span>
+          <div class="card">
+            <div class="card-head">
+              <h3>考生名單查詢</h3>
+              <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+                <label class="switch"><input type="checkbox" id="maskName" checked>姓名遮蔽</label>
+                <button class="btn btn-navy" id="btnExportE">匯出 CSV</button>
+              </div>
+            </div>
+            <div class="filters">
+              <select id="eSchool"><option value="">全部學校</option></select>
+              <select id="eResult">
+                <option value="">全部結果</option>
+                <option value="1">通過</option>
+                <option value="0">未通過</option>
+              </select>
+              <select id="eUnit"><option value="">全部受訓單位</option></select>
+              <input type="search" id="eKey" placeholder="搜尋姓名或學校">
+              <span class="count" id="eCount"></span>
+            </div>
+            <div class="table-wrap scroll-y"><table id="tE"></table></div>
           </div>
-          <div class="table-wrap scroll-y"><table id="tE"></table></div>
         </div>
       </section>
 
@@ -493,26 +519,31 @@
   </div>
 </main>
 
-<footer>奇美醫院教學部臨床技能中心 ・ 本表僅以國考當天奇美考場分配到的考題進行分析</footer>
+<footer>
+  <div class="wrap">
+    <span>奇美醫院教學部臨床技能中心</span>
+    <span>本表僅以國考當天奇美考場分配到的考題進行分析</span>
+  </div>
+</footer>
 
 <script>
 /* =========================================================
-   設定：貼上 Apps Script 網頁應用程式部署網址（…/exec）
+   資料來源：Apps Script 網頁應用程式（…/exec）
    ========================================================= */
-const GAS_URL = 'PASTE_YOUR_GAS_WEB_APP_URL_HERE';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbyoOKiP4omJNehpl344bPkai4-MDdGUxOfz2JflLWLRH5sn6D6pIkOCUTKPJSxMdIG_ow/exec';
 
 /* ---------- 色彩 ---------- */
 const C = {
-  navy: '#0B1A3A', navy2: '#1E3366', navy3: '#2E5A9C', orange: '#F39220',
-  teal: '#4E9A97', gray: '#8A94A6', pass: '#2E7D5B', fail: '#C2410C', line: '#E3E7EF'
+  navy: '#0B1A3A', navy2: '#3D5A99', orange: '#FF7A00', orange2: '#FFC46B',
+  soft: '#FFE1B8', cream: '#FFF4E2', paper: '#FFFBF3', muted: '#5A6273'
 };
 const ITEM_ORDER = ['病史詢問', '身體檢查', '病情解釋及臨床處置', '醫病溝通與衛教', '技能操作'];
 const ITEM_COLOR = {
-  '病史詢問': C.navy, '身體檢查': C.navy3, '病情解釋及臨床處置': C.orange,
-  '醫病溝通與衛教': C.teal, '技能操作': C.gray
+  '病史詢問': C.navy, '身體檢查': C.navy2, '病情解釋及臨床處置': C.orange,
+  '醫病溝通與衛教': C.orange2, '技能操作': C.paper
 };
-const PALETTE = [C.navy, C.orange, C.navy3, C.teal, C.gray, '#B7C4DD', '#F7C08A', '#3F6E8C', '#A86A2B', '#6C7FA6'];
-const itemColor = (k, i) => ITEM_COLOR[k] || PALETTE[i % PALETTE.length];
+const PALETTE = [C.navy, C.orange, C.navy2, C.orange2, C.paper, '#9AA6C4', '#FFB27A', '#1F7A4D'];
+const itemColor = (k, i) => ITEM_COLOR[k] || PALETTE[(i || 0) % PALETTE.length];
 
 /* ---------- 狀態 ---------- */
 const S = { Q: [], E: [], years: [], from: null, to: null, charts: {} };
@@ -553,6 +584,10 @@ function dateKey(d) {
   const p = String(d).split(/[.\/\-]/).map(x => parseInt(x, 10) || 0);
   return p[0] * 10000 + (p[1] || 0) * 100 + (p[2] || 0);
 }
+function yrText(ys) {
+  ys.sort((a, b) => a - b);
+  return ys.length === 1 ? ys[0] + ' 年' : '出現 ' + ys.length + ' 年（' + ys[0] + '–' + ys[ys.length - 1] + '）';
+}
 
 /* 題目解析：主訴、年齡、性別 */
 function parseTitle(q) {
@@ -581,10 +616,7 @@ const AGE_GROUPS = ['0–5 歲', '6–17 歲', '18–39 歲', '40–64 歲', '65
 
 /* ---------- 載入 ---------- */
 async function load(force) {
-  if (!GAS_URL || GAS_URL.indexOf('PASTE_') === 0) {
-    showState('尚未設定資料來源', '請將 Apps Script 部署網址貼到 <code>index.html</code> 的 <code>GAS_URL</code>。');
-    return;
-  }
+  if (!GAS_URL) { showState('尚未設定資料來源', '請在 <code>index.html</code> 填入 <code>GAS_URL</code>。'); return; }
   $('stamp').textContent = '資料載入中…';
   try {
     const url = GAS_URL + (GAS_URL.includes('?') ? '&' : '?') + 'action=data' + (force ? '&nocache=1' : '') + '&t=' + Date.now();
@@ -618,7 +650,7 @@ function init(d) {
   $('yFrom').value = S.from;
   $('yTo').value = S.to;
 
-  $('stamp').textContent = '資料更新：' + (d.updated || '');
+  $('stamp').textContent = '資料更新 ' + (d.updated || '');
   $('stateBox').hidden = true;
   $('app').hidden = false;
   renderAll();
@@ -629,9 +661,9 @@ function filtered() {
   const inR = r => r.y >= S.from && r.y <= S.to;
   return { Q: S.Q.filter(inR), E: S.E.filter(inR), years: S.years.filter(y => y >= S.from && y <= S.to) };
 }
-
 function renderAll() {
   const f = filtered();
+  $('issue').textContent = 'NATIONAL OSCE ARCHIVE ・ ' + S.from + '–' + S.to;
   renderKPI(f);
   renderPass(f);
   renderTopic(f);
@@ -644,19 +676,27 @@ function renderAll() {
 /* ---------- Chart 共用 ---------- */
 Chart.defaults.font.family = "'Noto Sans TC','Microsoft JhengHei',sans-serif";
 Chart.defaults.font.size = 12;
-Chart.defaults.color = '#4A5470';
-Chart.defaults.plugins.legend.labels.boxWidth = 12;
-Chart.defaults.plugins.legend.labels.boxHeight = 12;
+Chart.defaults.font.weight = 700;
+Chart.defaults.color = C.navy;
+Chart.defaults.borderColor = 'rgba(11,26,58,.12)';
+Chart.defaults.plugins.legend.labels.boxWidth = 14;
+Chart.defaults.plugins.legend.labels.boxHeight = 14;
+Chart.defaults.plugins.legend.labels.padding = 14;
+Chart.defaults.plugins.legend.labels.font = { weight: 900 };
 Chart.defaults.plugins.tooltip.backgroundColor = C.navy;
-Chart.defaults.plugins.tooltip.padding = 10;
+Chart.defaults.plugins.tooltip.titleColor = C.orange;
+Chart.defaults.plugins.tooltip.titleFont = { weight: 900 };
+Chart.defaults.plugins.tooltip.padding = 12;
+Chart.defaults.plugins.tooltip.cornerRadius = 10;
 Chart.defaults.maintainAspectRatio = false;
 
 function draw(id, config) {
   if (S.charts[id]) S.charts[id].destroy();
   S.charts[id] = new Chart($(id), config);
 }
-const gridY = { grid: { color: '#EEF1F6' }, border: { display: false } };
-const noGrid = { grid: { display: false }, border: { color: C.line } };
+const gridY = { grid: { color: 'rgba(11,26,58,.1)' }, border: { display: false } };
+const noGrid = { grid: { display: false }, border: { color: C.navy, width: 2.5 } };
+const barStyle = { borderColor: C.navy, borderWidth: 2, borderRadius: 6, borderSkipped: false };
 
 /* ---------- KPI ---------- */
 function renderKPI(f) {
@@ -664,36 +704,39 @@ function renderKPI(f) {
   const schools = uniq(f.E.map(e => e.school)).length;
   const qYears = uniq(f.Q.map(q => q.y)).length;
   const days = uniq(f.Q.map(q => q.y + '|' + q.date)).length;
+  const eYears = uniq(f.E.map(e => e.y)).length;
   const rng = f.years.length ? (f.years[0] === f.years[f.years.length - 1] ? f.years[0] + ' 年' : f.years[0] + '–' + f.years[f.years.length - 1] + ' 年') : '—';
   const k = [
     { l: '累計應考人數', v: n, u: '人', s: rng },
     { l: '通過人數', v: p, u: '人', s: '未通過 ' + (n - p) + ' 人' },
-    { l: '整體通過率', v: n ? pct(p, n).toFixed(1) : '—', u: n ? '%' : '', s: '通過／應考', hl: true },
-    { l: '考生來源學校', v: schools, u: '校', s: '依校名統一後計算' },
-    { l: '收錄考題', v: f.Q.length, u: '題', s: qYears + ' 個年度・' + days + ' 個考試日' },
-    { l: '平均每年應考', v: f.years.length ? (n / uniq(f.E.map(e => e.y)).length || 0).toFixed(1) : '—', u: '人', s: '有考生資料之年度' }
+    { l: '整體通過率', v: n ? pct(p, n).toFixed(1) : '—', u: n ? '%' : '', s: '通過／應考', cls: 'hl' },
+    { l: '考生來源學校', v: schools, u: '校', s: '校名統一後計算' },
+    { l: '收錄考題', v: f.Q.length, u: '題', s: qYears + ' 年度・' + days + ' 考試日', cls: 'dk' },
+    { l: '平均每年應考', v: eYears ? (n / eYears).toFixed(1) : '—', u: '人', s: '有考生資料之年度' }
   ];
   $('kpis').innerHTML = k.map(x =>
-    '<div class="kpi' + (x.hl ? ' hl' : '') + '"><div class="label">' + x.l + '</div>' +
-    '<div class="value num">' + x.v + '<small>' + x.u + '</small></div>' +
+    '<div class="kpi ' + (x.cls || '') + '"><div class="label">' + x.l + '</div>' +
+    '<div class="value">' + x.v + '<small>' + x.u + '</small></div>' +
     '<div class="sub">' + x.s + '</div></div>').join('');
 }
 
-/* ---------- 考生通過分析 ---------- */
+/* ---------- 01 考生通過分析 ---------- */
 function renderPass(f) {
   const ys = uniq(f.E.map(e => e.y)).sort((a, b) => a - b);
   const tot = ys.map(y => f.E.filter(e => e.y === y).length);
   const pas = ys.map(y => f.E.filter(e => e.y === y && e.passed).length);
   const fail = tot.map((t, i) => t - pas[i]);
   const rate = tot.map((t, i) => t ? +pct(pas[i], t).toFixed(1) : null);
+  const minRate = Math.min(...rate.filter(v => v != null), 100);
 
   draw('cYearPass', {
     data: {
       labels: ys.map(y => y + ' 年'),
       datasets: [
-        { type: 'bar', label: '通過', data: pas, backgroundColor: C.navy, stack: 's', yAxisID: 'y', borderRadius: 3, order: 2 },
-        { type: 'bar', label: '未通過', data: fail, backgroundColor: C.orange, stack: 's', yAxisID: 'y', borderRadius: 3, order: 2 },
-        { type: 'line', label: '通過率', data: rate, borderColor: C.navy3, backgroundColor: '#fff', yAxisID: 'y1', tension: .3, pointRadius: 4, pointBorderWidth: 2, order: 1 }
+        Object.assign({ type: 'bar', label: '通過', data: pas, backgroundColor: C.navy, stack: 's', yAxisID: 'y', order: 2, maxBarThickness: 40 }, barStyle, { borderRadius: 0 }),
+        Object.assign({ type: 'bar', label: '未通過', data: fail, backgroundColor: C.orange, stack: 's', yAxisID: 'y', order: 2, maxBarThickness: 40 }, barStyle, { borderRadius: 0 }),
+        { type: 'line', label: '通過率', data: rate, borderColor: C.navy, borderWidth: 3, backgroundColor: C.orange2,
+          yAxisID: 'y1', tension: 0, pointRadius: 5, pointHoverRadius: 7, pointBorderWidth: 2.5, pointBorderColor: C.navy, order: 1 }
       ]
     },
     options: {
@@ -707,31 +750,28 @@ function renderPass(f) {
       },
       scales: {
         x: Object.assign({ stacked: true }, noGrid),
-        y: Object.assign({ stacked: true, beginAtZero: true, title: { display: true, text: '人數' }, ticks: { precision: 0 } }, gridY),
-        y1: { position: 'right', min: Math.max(0, Math.floor((Math.min(...rate.filter(v => v != null), 100) - 10) / 10) * 10), max: 100,
-              grid: { display: false }, border: { display: false }, title: { display: true, text: '通過率 %' } }
+        y: Object.assign({ stacked: true, beginAtZero: true, title: { display: true, text: '人數', font: { weight: 900 } }, ticks: { precision: 0 } }, gridY),
+        y1: { position: 'right', min: Math.max(0, Math.floor((minRate - 10) / 10) * 10), max: 100,
+              grid: { display: false }, border: { display: false }, title: { display: true, text: '通過率 %', font: { weight: 900 } } }
       }
     }
   });
 
-  /* 受訓單位 */
   const units = sortedEntries(countBy(f.E, e => e.unit)).map(x => x[0]);
   const uRows = units.map(u => {
     const arr = f.E.filter(e => e.unit === u);
-    const p = arr.filter(e => e.passed).length;
-    return { u, n: arr.length, p };
+    return { u, n: arr.length, p: arr.filter(e => e.passed).length };
   });
   draw('cUnit', {
     type: 'doughnut',
-    data: { labels: units, datasets: [{ data: uRows.map(r => r.n), backgroundColor: units.map((u, i) => u === '院內' ? C.navy : u === '院外' ? C.orange : PALETTE[(i + 2) % PALETTE.length]), borderWidth: 2, borderColor: '#fff' }] },
-    options: { cutout: '62%', plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: c => ' ' + c.label + ' ' + c.parsed + ' 人（' + fmtPct(c.parsed, f.E.length) + '）' } } } }
+    data: { labels: units, datasets: [{ data: uRows.map(r => r.n), backgroundColor: units.map((u, i) => u === '院內' ? C.navy : u === '院外' ? C.orange : PALETTE[(i + 2) % PALETTE.length]), borderWidth: 2.5, borderColor: C.navy, hoverOffset: 6 }] },
+    options: { cutout: '58%', plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: c => ' ' + c.label + ' ' + c.parsed + ' 人（' + fmtPct(c.parsed, f.E.length) + '）' } } } }
   });
   $('tUnit').innerHTML =
     '<thead><tr><th>受訓單位</th><th class="n">應考</th><th class="n">通過</th><th class="n">通過率</th></tr></thead><tbody>' +
-    (uRows.length ? uRows.map(r => '<tr><td><span class="tag ' + (r.u === '院內' ? 'in' : 'out') + '">' + esc(r.u) + '</span></td><td class="n">' + r.n + '</td><td class="n">' + r.p + '</td><td class="n">' + fmtPct(r.p, r.n) + '</td></tr>').join('')
+    (uRows.length ? uRows.map(r => '<tr><td><span class="tag ' + (r.u === '院內' ? 'in' : 'out') + '">' + esc(r.u) + '</span></td><td class="n">' + r.n + '</td><td class="n">' + r.p + '</td><td class="n strong">' + fmtPct(r.p, r.n) + '</td></tr>').join('')
       : '<tr><td colspan="4" class="empty">無資料</td></tr>') + '</tbody>';
 
-  /* 學校 */
   const schools = sortedEntries(countBy(f.E, e => e.school));
   const maxN = schools.length ? schools[0][1] : 1;
   $('tSchool').innerHTML =
@@ -742,7 +782,7 @@ function renderPass(f) {
       const yrs = uniq(arr.map(e => e.y)).length;
       const inN = arr.filter(e => e.unit === '院內').length;
       const r = pct(p, n);
-      return '<tr><td class="n">' + (i + 1) + '</td><td>' + esc(s) + '</td><td class="n">' + yrs + '</td>' +
+      return '<tr><td class="n">' + (i + 1) + '</td><td class="strong">' + esc(s) + '</td><td class="n">' + yrs + '</td>' +
         '<td><div class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:' + (n / maxN * 100) + '%"></div></div><span class="num">' + n + '</span></div></td>' +
         '<td class="n">' + p + '</td><td class="n">' + (n - p) + '</td>' +
         '<td><div class="bar-cell"><div class="bar-track"><div class="bar-fill' + (r < 100 ? ' warn' : '') + '" style="width:' + r + '%"></div></div><span class="num">' + r.toFixed(1) + '%</span></div></td>' +
@@ -750,18 +790,18 @@ function renderPass(f) {
     }).join('') : '<tr><td colspan="8" class="empty">無資料</td></tr>') + '</tbody>';
 }
 
-/* ---------- 考題分析 ---------- */
+/* ---------- 02 考題分析 ---------- */
 function renderTopic(f) {
   const Q = f.Q;
   const dept = sortedEntries(countBy(Q, q => q.dept));
   $('nDept').textContent = '共 ' + Q.length + ' 題';
   draw('cDept', {
     type: 'bar',
-    data: { labels: dept.map(d => d[0]), datasets: [{ label: '題數', data: dept.map(d => d[1]), backgroundColor: dept.map((d, i) => i === 0 ? C.orange : C.navy), borderRadius: 4, maxBarThickness: 26 }] },
+    data: { labels: dept.map(d => d[0]), datasets: [Object.assign({ label: '題數', data: dept.map(d => d[1]), backgroundColor: dept.map((d, i) => i === 0 ? C.orange : C.navy), maxBarThickness: 30 }, barStyle)] },
     options: {
       indexAxis: 'y',
       plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + c.parsed.x + ' 題（' + fmtPct(c.parsed.x, Q.length) + '）' } } },
-      scales: { x: Object.assign({ beginAtZero: true, ticks: { precision: 0 } }, gridY), y: noGrid }
+      scales: { x: Object.assign({ beginAtZero: true, ticks: { precision: 0 } }, gridY), y: Object.assign({}, noGrid, { ticks: { font: { weight: 900, size: 13 } } }) }
     }
   });
 
@@ -770,67 +810,56 @@ function renderTopic(f) {
   $('nItem').textContent = items.length + ' 類';
   draw('cItem', {
     type: 'doughnut',
-    data: { labels: items, datasets: [{ data: items.map(k => itemsM.get(k)), backgroundColor: items.map(itemColor), borderWidth: 2, borderColor: '#fff' }] },
-    options: { cutout: '58%', plugins: { legend: { position: 'right' }, tooltip: { callbacks: { label: c => ' ' + c.label + ' ' + c.parsed + ' 題（' + fmtPct(c.parsed, Q.length) + '）' } } } }
+    data: { labels: items, datasets: [{ data: items.map(k => itemsM.get(k)), backgroundColor: items.map(itemColor), borderWidth: 2.5, borderColor: C.navy, hoverOffset: 6 }] },
+    options: { cutout: '55%', plugins: { legend: { position: 'right' }, tooltip: { callbacks: { label: c => ' ' + c.label + ' ' + c.parsed + ' 題（' + fmtPct(c.parsed, Q.length) + '）' } } } }
   });
 
-  /* 科別 × 項目 熱度 */
   const depts = dept.map(d => d[0]);
   let maxC = 0;
   const cell = {};
   Q.forEach(q => { const k = q.dept + '|' + q.item; cell[k] = (cell[k] || 0) + 1; maxC = Math.max(maxC, cell[k]); });
   $('tDeptItem').innerHTML = depts.length ?
-    '<thead><tr><th>科別</th>' + items.map(i => '<th>' + esc(i) + '</th>').join('') + '<th class="total">合計</th></tr></thead><tbody>' +
+    '<thead><tr><th>科別</th>' + items.map(i => '<th>' + esc(i) + '</th>').join('') + '<th>合計</th></tr></thead><tbody>' +
     depts.map(d => '<tr><td>' + esc(d) + '</td>' + items.map(i => heatCell(cell[d + '|' + i] || 0, maxC)).join('') +
-      '<td class="total num">' + Q.filter(q => q.dept === d).length + '</td></tr>').join('') +
-    '<tr><td class="total">合計</td>' + items.map(i => '<td class="total num">' + itemsM.get(i) + '</td>').join('') + '<td class="total num">' + Q.length + '</td></tr></tbody>'
+      '<td class="cell total">' + Q.filter(q => q.dept === d).length + '</td></tr>').join('') +
+    '<tr class="sum"><td>合計</td>' + items.map(i => '<td class="cell">' + itemsM.get(i) + '</td>').join('') + '<td class="cell total">' + Q.length + '</td></tr></tbody>'
     : '<tbody><tr><td class="empty">無資料</td></tr></tbody>';
 
-  /* 年度 × 項目 */
   const qYears = uniq(Q.map(q => q.y)).sort((a, b) => a - b);
   draw('cYearItem', {
     type: 'bar',
     data: {
       labels: qYears.map(y => y + ' 年'),
-      datasets: items.map((it, i) => ({ label: it, data: qYears.map(y => Q.filter(q => q.y === y && q.item === it).length), backgroundColor: itemColor(it, i), stack: 's', maxBarThickness: 56 }))
+      datasets: items.map((it, i) => Object.assign({ label: it, data: qYears.map(y => Q.filter(q => q.y === y && q.item === it).length), backgroundColor: itemColor(it, i), stack: 's', maxBarThickness: 60 }, barStyle, { borderRadius: 0 }))
     },
     options: {
       interaction: { mode: 'index', intersect: false },
       plugins: { legend: { position: 'bottom' } },
-      scales: { x: Object.assign({ stacked: true }, noGrid), y: Object.assign({ stacked: true, beginAtZero: true, ticks: { precision: 0 }, title: { display: true, text: '題數' } }, gridY) }
+      scales: { x: Object.assign({ stacked: true }, noGrid), y: Object.assign({ stacked: true, beginAtZero: true, ticks: { precision: 0 }, title: { display: true, text: '題數', font: { weight: 900 } } }, gridY) }
     }
   });
 
-  /* 高頻主訴／技能 */
-  const nonSkill = Q.filter(q => q.item !== '技能操作' && q.complaint);
-  const skill = Q.filter(q => q.item === '技能操作');
-  rankList('rankComplaint', nonSkill, q => q.complaint, q => q.item);
-  rankList('rankSkill', skill, q => q.title, q => q.dept);
+  rankList('rankComplaint', Q.filter(q => q.item !== '技能操作' && q.complaint), q => q.complaint, q => q.item);
+  rankList('rankSkill', Q.filter(q => q.item === '技能操作'), q => q.title, q => q.dept);
 
-  /* 情境病人 */
   const pts = Q.filter(q => q.hasPatient);
-  const sexes = ['男', '女'];
   draw('cPatient', {
     type: 'bar',
     data: {
       labels: AGE_GROUPS,
-      datasets: sexes.map((s, i) => ({ label: s + '性', data: AGE_GROUPS.map(g => pts.filter(p => p.sex === s && ageGroup(p.age) === g).length), backgroundColor: i ? C.orange : C.navy, borderRadius: 3, maxBarThickness: 34 }))
+      datasets: ['男', '女'].map((s, i) => Object.assign({ label: s + '性', data: AGE_GROUPS.map(g => pts.filter(p => p.sex === s && ageGroup(p.age) === g).length), backgroundColor: i ? C.orange : C.navy, maxBarThickness: 40 }, barStyle))
     },
     options: {
       interaction: { mode: 'index', intersect: false },
       plugins: { legend: { position: 'bottom' } },
-      scales: { x: noGrid, y: Object.assign({ beginAtZero: true, ticks: { precision: 0 }, title: { display: true, text: '題數' } }, gridY) }
+      scales: { x: noGrid, y: Object.assign({ beginAtZero: true, ticks: { precision: 0 }, title: { display: true, text: '題數', font: { weight: 900 } } }, gridY) }
     }
   });
 }
 function heatCell(v, max) {
-  if (!v) return '<td class="cell" style="color:#C3C9D6">0</td>';
-  const a = 0.08 + 0.82 * (v / (max || 1));
-  return '<td class="cell" style="background:rgba(11,26,58,' + a.toFixed(2) + ');color:' + (a > .5 ? '#fff' : C.navy) + ';font-weight:700">' + v + '</td>';
-}
-function yrText(ys) {
-  ys.sort((a, b) => a - b);
-  return ys.length === 1 ? ys[0] + ' 年' : '出現 ' + ys.length + ' 年（' + ys[0] + '–' + ys[ys.length - 1] + '）';
+  if (!v) return '<td class="cell" style="color:rgba(11,26,58,.3)">0</td>';
+  const a = 0.1 + 0.85 * (v / (max || 1));
+  return '<td class="cell" style="background:rgba(11,26,58,' + a.toFixed(2) + ');color:' + (a > .5 ? C.cream : C.navy) + '">' + v + '</td>';
 }
 function rankList(id, arr, keyFn, subFn) {
   const m = new Map();
@@ -843,69 +872,64 @@ function rankList(id, arr, keyFn, subFn) {
   const max = list.length ? list[0][1].n : 1;
   $(id).innerHTML = list.length ? list.map(([k, o], i) =>
     '<li><span class="no">' + (i + 1) + '</span><span class="txt"><b>' + esc(k) + '</b><span>' + yrText([...o.years]) + '・' + [...o.subs].map(esc).join('、') + '</span></span>' +
-    '<span class="bar-track"><span class="bar-fill" style="display:block;width:' + (o.n / max * 100) + '%"></span></span>' +
+    '<span class="bar-track"><span class="bar-fill' + (i < 3 ? ' warn' : '') + '" style="display:block;width:' + (o.n / max * 100) + '%"></span></span>' +
     '<span class="cnt">' + o.n + '</span></li>').join('') : '<li class="empty" style="display:block">無資料</li>';
 }
 
-/* ---------- 交叉分析 ---------- */
-function rateCell(p, n) {
-  if (!n) return '<td class="cell" style="color:#C3C9D6">—</td>';
+/* ---------- 03 交叉分析 ---------- */
+function rateCell(p, n, extra) {
+  const cls = 'cell' + (extra ? ' ' + extra : '');
+  if (!n) return '<td class="' + cls + '" style="color:rgba(11,26,58,.3)">—</td>';
   const r = p / n;
-  let bg, fg = C.navy;
-  if (r >= 1) bg = '#E7ECF6';
-  else if (r >= .8) bg = '#F9D3A6';
-  else { bg = C.orange; fg = C.navy; }
-  return '<td class="cell" style="background:' + bg + ';color:' + fg + '"><b>' + p + '／' + n + '</b><small>' + (r * 100).toFixed(0) + '%</small></td>';
+  const bg = r >= 1 ? C.paper : r >= .8 ? C.soft : C.orange;
+  return '<td class="' + cls + '" style="background:' + bg + '">' + p + '／' + n + '<small>' + (r * 100).toFixed(0) + '%</small></td>';
 }
 function renderCross(f) {
   const ys = uniq(f.E.map(e => e.y)).sort((a, b) => a - b);
   const groupMatrix = (id, keys, keyFn, label) => {
     $(id).innerHTML = keys.length ?
-      '<thead><tr><th>' + label + '</th>' + ys.map(y => '<th>' + y + '</th>').join('') + '<th class="total">合計</th></tr></thead><tbody>' +
+      '<thead><tr><th>' + label + '</th>' + ys.map(y => '<th>' + y + '</th>').join('') + '<th>合計</th></tr></thead><tbody>' +
       keys.map(k => {
         const arr = f.E.filter(e => keyFn(e) === k);
         return '<tr><td>' + esc(k) + '</td>' + ys.map(y => {
           const a = arr.filter(e => e.y === y);
           return rateCell(a.filter(e => e.passed).length, a.length);
-        }).join('') + rateCell(arr.filter(e => e.passed).length, arr.length).replace('class="cell"', 'class="cell total"') + '</tr>';
+        }).join('') + rateCell(arr.filter(e => e.passed).length, arr.length, 'total') + '</tr>';
       }).join('') +
-      '<tr><td class="total">合計</td>' + ys.map(y => {
+      '<tr class="sum"><td>合計</td>' + ys.map(y => {
         const a = f.E.filter(e => e.y === y);
-        return rateCell(a.filter(e => e.passed).length, a.length).replace('class="cell"', 'class="cell total"');
-      }).join('') + rateCell(f.E.filter(e => e.passed).length, f.E.length).replace('class="cell"', 'class="cell total"') + '</tr></tbody>'
+        return rateCell(a.filter(e => e.passed).length, a.length);
+      }).join('') + rateCell(f.E.filter(e => e.passed).length, f.E.length, 'total') + '</tr></tbody>'
       : '<tbody><tr><td class="empty">無資料</td></tr></tbody>';
   };
   groupMatrix('tSchoolYear', sortedEntries(countBy(f.E, e => e.school)).map(x => x[0]), e => e.school, '學校');
   groupMatrix('tUnitYear', sortedEntries(countBy(f.E, e => e.unit)).map(x => x[0]), e => e.unit, '受訓單位');
 
-  /* 年度 × 科別 */
   const qys = uniq(f.Q.map(q => q.y)).sort((a, b) => a - b);
   const depts = sortedEntries(countBy(f.Q, q => q.dept)).map(x => x[0]);
   let max = 0; const c = {};
   f.Q.forEach(q => { const k = q.y + '|' + q.dept; c[k] = (c[k] || 0) + 1; max = Math.max(max, c[k]); });
   $('tYearDept').innerHTML = qys.length ?
-    '<thead><tr><th>年度</th>' + depts.map(d => '<th>' + esc(d) + '</th>').join('') + '<th class="total">合計</th></tr></thead><tbody>' +
-    qys.map(y => '<tr><td>' + y + ' 年</td>' + depts.map(d => heatCell(c[y + '|' + d] || 0, max)).join('') + '<td class="total num">' + f.Q.filter(q => q.y === y).length + '</td></tr>').join('') + '</tbody>'
+    '<thead><tr><th>年度</th>' + depts.map(d => '<th>' + esc(d) + '</th>').join('') + '<th>合計</th></tr></thead><tbody>' +
+    qys.map(y => '<tr><td>' + y + ' 年</td>' + depts.map(d => heatCell(c[y + '|' + d] || 0, max)).join('') + '<td class="cell total">' + f.Q.filter(q => q.y === y).length + '</td></tr>').join('') + '</tbody>'
     : '<tbody><tr><td class="empty">無資料</td></tr></tbody>';
 
-  /* 年度題型 vs 通過率 */
   const items = orderItems(uniq(f.Q.map(q => q.item)));
-  const allY = qys;
-  $('tYearCompare').innerHTML = allY.length ?
-    '<thead><tr><th>年度</th><th>考試日</th>' + items.map(i => '<th><span class="dot" style="background:' + itemColor(i) + '"></span>' + esc(i) + '</th>').join('') +
-    '<th class="total">題數</th><th class="total">應考</th><th class="total">通過率</th></tr></thead><tbody>' +
-    allY.map(y => {
+  $('tYearCompare').innerHTML = qys.length ?
+    '<thead><tr><th>年度</th><th>考試日</th>' + items.map(i => '<th><span class="dot" style="background:' + itemColor(i) + ';border-color:' + C.cream + '"></span>' + esc(i) + '</th>').join('') +
+    '<th>題數</th><th>應考</th><th>通過率</th></tr></thead><tbody>' +
+    qys.map(y => {
       const q = f.Q.filter(x => x.y === y), e = f.E.filter(x => x.y === y);
       const p = e.filter(x => x.passed).length;
       const days = uniq(q.map(x => x.date)).sort((a, b) => dateKey(a) - dateKey(b));
-      return '<tr><td>' + y + ' 年</td><td style="white-space:nowrap">' + (days.length ? days.map(esc).join('<br>') : '—') + '</td>' +
-        items.map(i => { const n = q.filter(x => x.item === i).length; return '<td class="cell">' + (n ? n + '<small>' + fmtPct(n, q.length) + '</small>' : '<span style="color:#C3C9D6">0</span>') + '</td>'; }).join('') +
-        '<td class="total num">' + (q.length || '—') + '</td><td class="total num">' + (e.length || '—') + '</td><td class="total num">' + fmtPct(p, e.length) + '</td></tr>';
+      return '<tr><td>' + y + ' 年</td><td class="cell" style="white-space:nowrap;font-weight:700">' + (days.length ? days.map(esc).join('<br>') : '—') + '</td>' +
+        items.map(i => { const n = q.filter(x => x.item === i).length; return '<td class="cell">' + (n ? n + '<small>' + fmtPct(n, q.length) + '</small>' : '<span style="color:rgba(11,26,58,.3)">0</span>') + '</td>'; }).join('') +
+        '<td class="cell total">' + (q.length || '—') + '</td><td class="cell">' + (e.length || '—') + '</td>' + rateCell(p, e.length) + '</tr>';
     }).join('') + '</tbody>'
     : '<tbody><tr><td class="empty">無資料</td></tr></tbody>';
 }
 
-/* ---------- 歷年考場題目 ---------- */
+/* ---------- 04 歷年考場題目 ---------- */
 function renderByYear(f) {
   const ys = uniq(f.Q.map(q => q.y)).sort((a, b) => b - a);
   if (!ys.length) { $('yearBlocks').innerHTML = '<div class="state">所選年度範圍內沒有考題資料</div>'; return; }
@@ -914,8 +938,10 @@ function renderByYear(f) {
     const days = uniq(q.map(x => x.date)).sort((a, b) => dateKey(a) - dateKey(b));
     const e = f.E.filter(x => x.y === y);
     const p = e.filter(x => x.passed).length;
-    return '<div class="year-block"><div class="year-title"><h3>' + y + ' 年</h3><span>' + days.length + ' 個考試日・' + q.length + ' 題' +
-      (e.length ? '・應考 ' + e.length + ' 人・通過率 ' + fmtPct(p, e.length) : '') + '</span></div><div class="day-grid">' +
+    return '<div class="year-block"><div class="year-title"><h3>' + y + '<small>年</small></h3>' +
+      '<span class="chip">' + days.length + ' 個考試日</span><span class="chip">' + q.length + ' 題</span>' +
+      (e.length ? '<span class="chip">應考 ' + e.length + ' 人</span><span class="chip" style="background:var(--orange)">通過率 ' + fmtPct(p, e.length) + '</span>' : '') +
+      '</div><div class="day-grid">' +
       days.map(d => {
         const arr = q.filter(x => x.date === d);
         return '<div class="day-card"><div class="dh">' + esc(d) + '<span>' + arr.length + ' 站</span></div>' +
@@ -926,7 +952,7 @@ function renderByYear(f) {
   }).join('');
 }
 
-/* ---------- 資料查詢 ---------- */
+/* ---------- 05 資料查詢 ---------- */
 function fillSelect(id, values, allLabel) {
   const el = $(id), cur = el.value;
   el.innerHTML = '<option value="">' + allLabel + '</option>' + values.map(v => '<option>' + esc(v) + '</option>').join('');
@@ -952,20 +978,20 @@ function renderQuery() {
   const q = queryQ();
   $('qCount').textContent = '共 ' + q.length + ' 筆';
   $('tQ').innerHTML = '<thead><tr><th class="n">年度</th><th>考試日期</th><th>科別</th><th>測驗項目</th><th>題目</th></tr></thead><tbody>' +
-    (q.length ? q.map(x => '<tr><td class="n">' + x.y + '</td><td class="num">' + esc(x.date) + '</td><td>' + esc(x.dept) + '</td><td><span class="dot" style="background:' + itemColor(x.item) + '"></span>' + esc(x.item) + '</td><td>' + esc(x.title) + '</td></tr>').join('')
+    (q.length ? q.map(x => '<tr><td class="n">' + x.y + '</td><td class="num">' + esc(x.date) + '</td><td class="strong">' + esc(x.dept) + '</td><td style="white-space:nowrap"><span class="dot" style="background:' + itemColor(x.item) + '"></span>' + esc(x.item) + '</td><td>' + esc(x.title) + '</td></tr>').join('')
       : '<tr><td colspan="5" class="empty">查無符合的考題</td></tr>') + '</tbody>';
 
   const e = queryE(), mask = $('maskName').checked;
   $('eCount').textContent = '共 ' + e.length + ' 筆';
   $('tE').innerHTML = '<thead><tr><th class="n">年度</th><th>考生</th><th>學校</th><th class="c">結果</th><th class="c">受訓單位</th></tr></thead><tbody>' +
-    (e.length ? e.map(x => '<tr><td class="n">' + x.y + '</td><td>' + esc(mask ? maskName(x.name) : x.name) + '</td><td>' + esc(x.school) + '</td>' +
+    (e.length ? e.map(x => '<tr><td class="n">' + x.y + '</td><td class="strong">' + esc(mask ? maskName(x.name) : x.name) + '</td><td>' + esc(x.school) + '</td>' +
       '<td class="c"><span class="tag ' + (x.passed ? 'pass' : 'fail') + '">' + (x.passed ? '通過' : '未通過') + '</span></td>' +
       '<td class="c"><span class="tag ' + (x.unit === '院內' ? 'in' : 'out') + '">' + esc(x.unit) + '</span></td></tr>').join('')
       : '<tr><td colspan="5" class="empty">查無符合的考生</td></tr>') + '</tbody>';
 }
 function exportCSV(name, header, rows) {
   const q = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
-  const csv = '\uFEFF' + [header, ...rows].map(r => r.map(q).join(',')).join('\r\n');
+  const csv = '﻿' + [header, ...rows].map(r => r.map(q).join(',')).join('\r\n');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
   a.download = name + '_' + S.from + '-' + S.to + '.csv';
